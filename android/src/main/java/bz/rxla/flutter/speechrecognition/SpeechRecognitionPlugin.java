@@ -42,8 +42,11 @@ public class SpeechRecognitionPlugin implements MethodCallHandler, RecognitionLi
         this.speechChannel = channel;
         this.speechChannel.setMethodCallHandler(this);
         this.activity = activity;
-
-        speech = SpeechRecognizer.createSpeechRecognizer(context);
+        if (activity != null) {
+            speech = SpeechRecognizer.createSpeechRecognizer(activity.getApplicationContext());
+        } else {
+            speech = SpeechRecognizer.createSpeechRecognizer(context.getApplicationContext());
+        }
         speech.setRecognitionListener(this);
 
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
